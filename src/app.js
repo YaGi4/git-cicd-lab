@@ -1,30 +1,45 @@
 function add(a, b) {
- return a + b;
+  return a + b;
 }
-function multiply(a, b) {return a * b;
+
+function multiply(a, b) {
+  return a * b;
 }
+
 function greet(name) {
- return `Hello, ${name}!`;
+  return `Hello, ${name}!`;
 }
-module.exports = { add, multiply, greet };
-if (require.main === module) {
- console.log('Application started!');
- console.log('2 + 3 =', add(2, 3));
- console.log('4 * 5 =', multiply(4, 5));
- console.log(greet('Student'));
-}
+
 function subtract(a, b) {
- return a - b;
+  return a - b;
 }
+
 function divide(a, b) {
- if (b === 0) { throw new Error('Division by zero');
- }
- return a / b;
+  if (b === 0) {
+    throw new Error('Division by zero');
+  }
+  return a / b;
 }
-module.exports = { add, multiply, greet, subtract, divide, power };
 
 function power(base, exponent) {
+  return Math.pow(base, exponent);
 }
-function power(base, exponent) {
- return Math.pow(base, exponent);
+
+module.exports = {
+  add,
+  multiply,
+  greet,
+  subtract,
+  divide,
+  power
+};
+
+if (require.main === module) {
+  console.log('Application started!');
+  console.log('2 + 3 =', add(2, 3));
+  console.log('4 * 5 =', multiply(4, 5));
+  console.log(greet('Student'));
+  console.log('5 - 3 =', subtract(5, 3));
+  console.log('6 / 2 =', divide(6, 2));
+  console.log('2 ^ 3 =', power(2, 3));
 }
