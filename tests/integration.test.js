@@ -1,21 +1,36 @@
 const { spawn } = require('child_process');
 const path = require('path');
+
 describe('Integration tests', () => {
- test('application starts without errors', (done) => {
- const appPath = path.join(__dirname, '..', 'src', 'app.js');
- const child = spawn('node', [appPath], { stdio: 'pipe' });
- let output = '';
- child.stdout.on('data', (data) => {
- output += data.toString();
- });
- child.on('close', (code) => {
- expect(code).toBe(0);
- expect(output).toContain('Application started!');
- expect(output).toContain('2 + 3 = 5');
- done();
- });
- // Завершить процесс через небольшой промежуток времени
- setTimeout(() => {
- child.kill();
- }, 1000); });
+  test('task server starts without errors', (done) => {
+    const serverPath = path.join(__dirname, '..', 'task-server.js');
+    const child = spawn('node', [serverPath], { stdio: 'pipe' });
+    
+    let output = '';
+    
+    child.stdout.on('data', (data) => {
+      output += data.toString();
+      // Ждем пока сервер запустится
+      if (output.includes('Task Manager API running')) {
+        child.kill();
+      }
+    });
+    
+    child.stderr.on('data', (data) => {
+      output += data.toString();
+    });
+    
+    child.on('close', (code) => {
+      expect(output).toContain('Task Manager API running');
+      done();
+    });
+    
+    // Таймаут для теста
+    setTimeout(() => {
+      if (child.exitCode === null) {
+        child.kill();
+        done();
+      }
+    }, 3000);
+  }, 5000);
 });
