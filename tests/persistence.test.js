@@ -4,7 +4,7 @@ const path = require('path');
 
 describe('TaskManager Persistence', () => {
   let taskManager;
-  const testDataFile = path.join(__dirname, '../data/test-tasks.json');
+  const testDataFile = path.join(__dirname, '../data/tasks.json');
 
   beforeEach(() => {
     // Используем тестовый файл для изоляции тестов
