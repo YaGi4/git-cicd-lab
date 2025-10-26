@@ -21,4 +21,10 @@ function divide(a, b) {
  }
  return a / b;
 }
-module.exports = { add, multiply, greet, subtract, divide };
+module.exports = { add, multiply, greet, subtract, divide, power };
+
+function power(base, exponent) {
+}
+function power(base, exponent) {
+ return Math.pow(base, exponent);
+}
