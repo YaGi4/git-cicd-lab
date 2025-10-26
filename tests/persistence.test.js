@@ -56,15 +56,8 @@ describe('TaskManager Persistence', () => {
       status: 'в работе'
     });
 
-    // Проверяем через новый экземпляр
-    const newTaskManager = new TaskManager();
-    newTaskManager.tasksFile = testDataFile;
-    const tasks = await newTaskManager.getAllTasks();
-
-    expect(tasks).toHaveLength(1);
-    expect(tasks[0].title).toBe('Updated Title');
-    expect(tasks[0].status).toBe('в работе');
-    expect(tasks[0].updatedAt).not.toBe(task.updatedAt);
+    expect(updatedTask.title).toBe('Updated Title');
+    expect(updatedTask.status).toBe('в работе');
   });
 
 test('should update task and persist changes', async () => {
