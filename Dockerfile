@@ -1,26 +1,47 @@
-# Используем официальный Node.js образ
-FROM node:18-alpine
+# Мulti-stage build
+FROM node:18-alpine as development
+
 # Устанавливаем рабочую директорию
 WORKDIR /app
+
 # Копируем package.json и package-lock.json
-COPY package*.json ./# Устанавливаем зависимости
+COPY package*.json ./
+
+# Устанавливаем зависимости
 RUN npm install
+
 # Копируем исходный код
 COPY . .
+
 # Стадия для тестирования
 FROM development as test
 RUN npm test
+
 # Продакшн стадия
 FROM node:18-alpine as production
+
+# Устанавливаем рабочую директорию
 WORKDIR /app
+
+# Копируем package.json
 COPY package*.json ./
+
+# Устанавливаем только production зависимости
 RUN npm install --only=production
+
+# Копируем исходный код из development стадии
 COPY --from=development /app/src ./src
+COPY --from=development /app/tests ./tests
+COPY --from=development /app/*.js ./
+
 # Создаём пользователя для безопасности
 RUN addgroup -g 1001 -S nodejs && \
- adduser -S nextjs -u 1001
+    adduser -S nextjs -u 1001
+
 USER nextjs
+
 # Открываем порт
 EXPOSE 3000
+
 # Команда по умолчанию
 CMD ["npm", "start"]

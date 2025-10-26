@@ -33,13 +33,3 @@ module.exports = {
   divide,
   power
 };
-
-if (require.main === module) {
-  console.log('Application started!');
-  console.log('2 + 3 =', add(2, 3));
-  console.log('4 * 5 =', multiply(4, 5));
-  console.log(greet('Student'));
-  console.log('5 - 3 =', subtract(5, 3));
-  console.log('6 / 2 =', divide(6, 2));
-  console.log('2 ^ 3 =', power(2, 3));
-}
